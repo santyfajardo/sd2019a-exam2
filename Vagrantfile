@@ -48,16 +48,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n3.vm.box = vm_box
      n3.vm.network :private_network, ip:  ip_worker3
      n3.vm.provider :virtualbox do |vb|
-       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "worker_3b" ]
+       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "worker_3" ]
        unless File.exist?(fourthDisk)
          vb.customize ['createhd', '--filename', fourthDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', fourthDisk]
      end
    end
-   #config.vm.provision "ansible" do |ansible|
-    # ansible.inventory_path = 'hosts'
-     #ansible.playbook = "config.yml"
-  #end
+   config.vm.provision "ansible" do |ansible|
+     ansible.inventory_path = 'hosts'
+     ansible.playbook = "playbook.yml"
+  end
 end
 
