@@ -24,12 +24,14 @@ En este Segundo Examen Parcial se empleo vagrant y ansible para el aprovisionami
 ![](Imagenes/ansible.png) 
 
 
-![](Imagenes/Captura de pantalla de 2019-04-18 00-04-10 - 1.png)
+![](Imagenes/ansible2.png)
 
+
+![](Imagenes/running.png)
 
 
 **Problemas encontrados** 
-Al realizar el parcial en una maquina virtual y no tener instalado nada, se presentaban errores por libvirtd, vagrant, ansible y la imagen del centos/7. Entonces se debio hacer su debida instalación.
+Al realizar el parcial en una maquina virtual y no tener instalado nada, se presentaban errores por libvirtd, vagrant, ansible y la imagen del centos/7, entonces se debio hacer su debida instalación. Otro error fue que la maquina virtual colapsaba o se congelaba ya que a cada nodo le estaba asignando mucha memoria Ram.
 
 
 **Referencias** 
