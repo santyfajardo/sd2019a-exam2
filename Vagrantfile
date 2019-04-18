@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.box = vm_box
     master.vm.network :private_network, ip: ip_master
     master.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048","--cpus", "1", "--name", "master" ]
+      vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "master" ]
       unless File.exist?(firstDisk)
         vb.customize ['createhd', '--filename', firstDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion ]
       end
@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n1.vm.box = vm_box
      n1.vm.network :private_network, ip: ip_worker1
      n1.vm.provider :virtualbox do |vb|
-       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "worker_1" ]
+       vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_1" ]
        unless File.exist?(secondDisk)
          vb.customize ['createhd', '--filename', secondDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
        end
@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n2.vm.box = vm_box
      n2.vm.network :private_network, ip: ip_worker2
      n2.vm.provider :virtualbox do |vb|
-       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "worker_2" ]
+       vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_2" ]
        unless File.exist?(thirdDisk)
          vb.customize ['createhd', '--filename', thirdDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
        end
@@ -48,7 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n3.vm.box = vm_box
      n3.vm.network :private_network, ip:  ip_worker3
      n3.vm.provider :virtualbox do |vb|
-       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "worker_3" ]
+       vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_3" ]
        unless File.exist?(fourthDisk)
          vb.customize ['createhd', '--filename', fourthDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
        end
