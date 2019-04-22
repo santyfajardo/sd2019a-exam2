@@ -1,4 +1,4 @@
-.vagrant/
+.vagrant/machines
 firstDisk.vdi
 secondDisk.vdi
 thirdDisk.vdi
