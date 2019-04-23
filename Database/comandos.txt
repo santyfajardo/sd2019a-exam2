@@ -1,0 +1,21 @@
+#Contruye la imagen llamada my-mysql a partir del Dockerfile
+docker build -t my-mysql .
+
+#Construye el contenedor a partir de la imagen dada asignadole password como contraseña
+docker run -d -p 3306:3306 --name my-mysql -e MYSQL_ROOT_PASSWORD=password my-mysql
+
+#Ingresa a la linea de comandos del contenedor
+docker exec -it my-mysql bash 
+
+#Ingresa a la base de datos como usuario root
+mysql -uroot -p
+
+#Comandos dentro de mysql
+
+password = password
+
+use Escuela;
+
+show databases;
+
+select * from alumnos;
