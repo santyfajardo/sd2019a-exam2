@@ -58,9 +58,9 @@
 	#cual se debe configurar el firewall
     - name: Starting firewalld
       service:
-	 name: firewalld
-	 state: started
-	 enabled: yes
+	name: firewalld
+	state: started
+	enabled: yes
     - name: Unable firewall tcp
       firewalld:
 	port: 0-6500/tcp
