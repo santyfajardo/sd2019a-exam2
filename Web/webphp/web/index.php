@@ -1,43 +1,50 @@
 <?php
-	// Ejemplo de conexión a base de datos MySQL con PHP.
-	//
-	// Ejemplo realizado por Oscar Abad Folgueira: http://www.oscarabadfolgueira.com y https://www.dinapyme.com
-	// Datos de la base de datos
-	$usuario = "root";
-	$password = "password";
-	$servidor = "localhost:3306";
+
+
+
+//echo "My first PHP script!";
+
+
+
+// Ejemplo de conexión a base de datos MySQL con PHP.
+// Datos de la base de datos
+	$username = 'root';
+	$password = 'password';
+	$servername = '192.168.130.160:3306';
 	$basededatos = "Escuela";
 	
 	// creación de la conexión a la base de datos con mysql_connect()
-	$conexion = mysql_connect( $servidor, $usuario, $password );
+	$conn = mysqli_connect($servername, $username, $password,$basededatos);
+
 	
-	// Selección del a base de datos a utilizar
-	$db = mysql_select_db( $conexion, $basededatos );
+	if (!$conn) {
+    die("El error con el cual salio la conexcion: " . mysqli_connect_error());
+}
+echo "Connected successfully";
 	
 	
 	// establecer y realizar consulta. guardamos en variable.
-	$consulta = "SELECT * FROM alumnos";
-	$resultado = mysql_query( $conexion, $consulta );
+	$consulta = "SELECT * FROM alumnos;";
+	$resultado = mysqli_query( $conn, $consulta );
 	
 	// Motrar el resultado de los registro de la base de datos
 	// Encabezado de la tabla
-	echo "<table borde='2'>";
-	echo "<tr>";
-	echo "<th>Nombre</th>";
-	echo "<th>Apellido</th>";
-	echo "<th>Carrera</th>";
-	echo "<th>Email</th>";
-	echo "</tr>";
-	
+echo "<table borde='2'>";
+echo "<tr>";
+echo "<th>Nombre</th>";
+echo "<th>Apellido</th>";
+echo "<th>Carrera</th>";
+echo "<th>Email</th>";
+echo "</tr>";
 	// Bucle while que recorre cada registro y muestra cada campo en la tabla.
-	while ($columna = mysql_fetch_array( $resultado ))
-	{
-		echo "<tr>";
-		echo "<td>" . $columna['nombre'] . "</td><td>" . $columna['apellido'] . "</td><td>" . $columna['carrera'] . "</td><td>" . $columna['email'] . "</td>";
-		echo "</tr>";
-	}
+while ($columna = mysqli_fetch_array( $resultado ))
+{
+	echo "<tr>";
+	echo "<td>" . $columna['nombre'] . "</td><td>" . $columna['apellido'] . "</td><td>" . $columna['carrera'] . "</td><td>" . $columna['email'] . "</td>";
+	echo "</tr>";
+}
 	
-	echo "</table>"; // Fin de la tabla
-	// cerrar conexión de base de datos
-	mysql_close( $conexion );
+echo "</table>"; // Fin de la tabla
+// cerrar conexión de base de datos
+mysqli_close( $conn );
 ?>
