@@ -109,17 +109,17 @@ services:
 
     kibana:
       image: elastic/kibana:6.4.3
-    ports:
-      - "5601:5601"
-    networks:
-      - net
-    logging:
+      ports:
+        - "5601:5601"
+      networks:
+        - net
+      logging:
         driver: "json-file"
         options:
            max-size: 10M
            max-file: 1        
-    deploy:
-      restart_policy:
+      deploy:
+        restart_policy:
         condition: on-failure
         delay: 20s
         max_attempts: 3
@@ -130,6 +130,16 @@ services:
         constraints: [node.role == manager]
       update_config:
         delay: 2s  
- 
+    db:
+      build: ./Database
+      ports: 
+        -"3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: password
+    php:
+      build: ./Web/webphp
+      ports: 
+        -"8080:8080"
+      
 networks:
   net:
