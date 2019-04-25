@@ -2,29 +2,29 @@ version: '3.3'
 
 services:
 
-  whoami:
-    image: tutum/hello-world
-    networks:
-      - net
-    ports:
-      - "8088:80"
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: tutum
-    deploy:
-      restart_policy:
-	  condition: on-failure
-	  delay: 20s
-	  max_attempts: 3
-	  window: 120s
-      mode: replicated
-      replicas: 3
-      placement:
-        constraints: [node.role == worker]
-      update_config:
-        delay: 2s
+    whoami:
+      image: tutum/hello-world
+      networks:
+        - net
+      ports:
+        - "8088:80"
+      logging:
+        driver: "fluentd"
+        options:
+          fluentd-address: localhost:24224
+          tag: tutum
+      deploy:
+        restart_policy:
+	    condition: on-failure
+	    delay: 20s
+	    max_attempts: 3
+	    window: 120s
+        mode: replicated
+        replicas: 3
+        placement:
+          constraints: [node.role == worker]
+        update_config:
+          delay: 2s
 
     vizualizer:
         image: dockersamples/visualizer
