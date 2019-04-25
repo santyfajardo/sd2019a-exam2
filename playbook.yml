@@ -1,3 +1,5 @@
+---
+
 - name: Install Docker and Docker Compose on CentOS
   hosts: all
   become: true
@@ -52,3 +54,105 @@
       when:
         - docker_compose_check.msg is defined
         - docker_compose_check.msg.find('No such file or directory') != -1
+
+    
+
+    - name: install glusterfs
+      yum:
+              name:
+                            - wget
+                            - centos-release-gluster
+                            - epel-release
+                            
+
+    - name: update
+      yum:
+              name: '*'
+              state: latest
+
+    - name: install glusterfs-server
+      yum:
+              name:
+                            - glusterfs-server
+                                 
+
+    - name: update
+      yum:
+              name: '*'
+              state: latest
+
+
+                        
+    - name: start gluster
+      service:
+              name: glusterd
+              state: started
+              enabled: yes
+
+    - name: update
+      yum:
+              name: '*'
+              state: latest
+
+
+    - name: install xfs
+      yum:
+              name: xfsprogs
+              
+    - name: update
+      yum:
+              name: '*'
+              state: latest
+
+    - name: Volume partition
+      parted:
+              device: /dev/sdb
+              number: 1
+              state: present
+
+
+    - name: update
+      yum:
+              name: '*'
+              state: latest
+
+
+   - name: Creating a XFS fils system
+     filesystem:
+              fstype: xfs
+              dev: /dev/sdb1
+
+   - name: update
+      yum:
+              name: '*'
+              state: latest
+
+
+   - name: Directory
+     shell: mkdir -p /gluster/data /swarm/volumes
+
+   - name: update
+     yum:
+             name: '*'
+             state: latest
+
+
+
+   - name: Mount volume
+     mount:
+             path: /dev/sdb1
+             src: /gluster/data
+             state: present
+             fstype: xfs
+   - name: update
+     yum:
+             name: '*'
+             state: latest
+
+
+   - name: change gluster permissions
+     file:
+             path: /var/log/glusterfs/cli.log
+             owner: vagrant
+             mode: 755
+               

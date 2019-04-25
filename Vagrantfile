@@ -5,10 +5,10 @@ VAGRANTFILE_API_VERSION = "2"
   ip_worker1 = '192.168.56.111'
   ip_worker2 = '192.168.56.112'
   ip_worker3 = '192.168.56.113'
-firstDisk = '/firstDisk.vdi'
-secondDisk = '/secondDisk.vdi'
-thirdDisk = '/thirdDisk.vdi'
-fourthDisk = '/fourthDisk.vdi'
+firstDisk = './firstDisk.vdi'
+secondDisk = './secondDisk.vdi'
+thirdDisk = './thirdDisk.vdi'
+fourthDisk = './fourthDisk.vdi'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
   config.vm.define :master do |master|
@@ -21,6 +21,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
       vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', firstDisk]
     end
+    master.vm.provision "ansible" do |ansible|
+       ansible.inventory_path = 'hosts'
+       ansible.playbook = "playbook.yml"
+    end
   end
  config.vm.define :worker_1 do |n1|
      n1.vm.box = vm_box
@@ -32,6 +36,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', secondDisk]
      end
+ n1.vm.provision "ansible" do |ansible|
+       ansible.inventory_path = 'hosts'
+       ansible.playbook = "playbook.yml"
+      end
    end
   config.vm.define :worker_2 do |n2|
      n2.vm.box = vm_box
@@ -43,6 +51,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', thirdDisk]
      end
+ n2.vm.provision "ansible" do |ansible|
+       ansible.inventory_path = 'hosts'
+       ansible.playbook = "playbook.yml"
+      end
    end
    config.vm.define :worker_3 do |n3|
      n3.vm.box = vm_box
@@ -54,10 +66,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', fourthDisk]
      end
-   end
-   config.vm.provision "ansible" do |ansible|
-     ansible.inventory_path = 'hosts'
-     ansible.playbook = "playbook.yml"
+n3.vm.provision "ansible" do |ansible|
+       ansible.inventory_path = 'hosts'
+       ansible.playbook = "playbook.yml"
+	end
   end
 end
 
