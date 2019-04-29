@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024","--cpus", "1", "--name", "master" ]
       unless File.exist?(firstDisk)
-        vb.customize ['createhd', '--filename', firstDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion ]
+        vb.customize ['createhd', '--filename', firstDisk, '--variant', 'Fixed', '--size', 5 * 1024 ]
       end
       vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', firstDisk]
     end
@@ -32,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n1.vm.provider :virtualbox do |vb|
        vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_1" ]
        unless File.exist?(secondDisk)
-         vb.customize ['createhd', '--filename', secondDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
+         vb.customize ['createhd', '--filename', secondDisk, '--variant', 'Fixed', '--size', 5 * 1024]
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', secondDisk]
      end
@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n2.vm.provider :virtualbox do |vb|
        vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_2" ]
        unless File.exist?(thirdDisk)
-         vb.customize ['createhd', '--filename', thirdDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
+         vb.customize ['createhd', '--filename', thirdDisk, '--variant', 'Fixed', '--size', 5 * 1024]
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', thirdDisk]
      end
@@ -62,7 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      n3.vm.provider :virtualbox do |vb|
        vb.customize ["modifyvm", :id, "--memory", "512","--cpus", "1", "--name", "worker_3" ]
        unless File.exist?(fourthDisk)
-         vb.customize ['createhd', '--filename', fourthDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion]
+         vb.customize ['createhd', '--filename', fourthDisk, '--variant', 'Fixed', '--size', 5 * 1024]
        end
        vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', fourthDisk]
      end

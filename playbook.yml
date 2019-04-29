@@ -5,6 +5,13 @@
   become: true
 
   tasks:
+          - name: nodos
+            shell: echo "192.168.56.110 node0" >> /etc/hosts
+                   echo "192.168.56.111 node1" >> /etc/hosts
+                   echo "192.168.56.112 node2" >> /etc/hosts
+                   echo "192.168.56.113 node3" >> /etc/hosts
+          
+          
           - name: Actualizar todos los paquetes
             yum: name=* state=latest
           
@@ -147,19 +154,25 @@
           - name: assign content to /dev/sdb
             shell:
                     cmd: |
-                            sfdisk /dev/vda1 << EOF
+                            sfdisk /dev/sdb << EOF
                             ;
                             EOF
+            ignore_errors: yes
+
+                         
 
           - name: ejecutar comando  mkfs.xfs
             shell: mkfs.xfs /dev/sdb1
-
+            ignore_errors: yes
+          
           - name: crear directorios  /gluster/data y  /dev/sdb
             shell: mkdir -p /gluster/data /swarm/volumes
+            ignore_errors: yes
 
           - name: montar /dev/sdb
             shell: mount /dev/sdb1 /gluster/data/
-          
+            ignore_errors: yes
+
           - name: actualizar
             yum:
                     name: '*'
@@ -176,27 +189,34 @@
   become: yes
   tasks:
           - name: gluster add node1
-            shell: gluster peer probe node1
+            shell:
+                    cmd: gluster peer probe node1
           - name: gluster add node2
-            shell: gluster peer probe node2
+            shell:
+                    cmd: gluster peer probe node2
           - name: gluster add node3
-            shell: gluster peer probe node3
+            shell:
+                    cmd: gluster peer probe node3
           - name: create volume
-            shell: gluster volume create swarm-vols replica 4 node0:/gluster/data node1:/gluster/data node2:/gluster/data node3:/gluster/data force     
+            shell:
+                    cmd: gluster volume create swarm-vols replica 4 node0:/gluster/data node1:/gluster/data node2:/gluster/data node3:/gluster/data force     
+            ignore_errors: yes
+          
           - name: gluster start volume
-            shell: gluster volume start swarm-vols
-
+            shell:
+                    cmd: gluster volume start swarm-vols
+            ignore_errors: yes
 - hosts: all
   become: yes
   tasks:
           - name: mount swarm in all nodes
             shell: mount.glusterfs localhost:/swarm-vols /swarm/volumes
-            
+            ignore_errors: yes
 - hosts: master
   become: yes
   tasks:
           - name: docker swarm init
-            shell: docker swarm init > token.txt
+            shell: docker swarm init >> token.txt
 
 - hosts: worker_1,worker_2,worker_3
   become: yes
