@@ -1,4 +1,4 @@
-VAGRANTFILE_API_VERSION = "2"
+TFILE_API_VERSION = "2"
   vm_box = 'centos/7'
   tamaniodisco_multiplicacion = '5 * 1024'
   ip_master = '192.168.56.110'
@@ -19,7 +19,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       unless File.exist?(firstDisk)
         vb.customize ['createhd', '--filename', firstDisk, '--variant', 'Fixed', '--size', tamaniodisco_multiplicacion ]
       end
-      vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', firstDisk]
+      vb.customize ['storageattach', :id,  '--storagectl', 'IDE
+', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', firstDisk]
     end
     master.vm.provision "ansible" do |ansible|
        ansible.inventory_path = 'hosts'
