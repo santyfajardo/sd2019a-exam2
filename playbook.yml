@@ -115,41 +115,11 @@
                     name: '*'
                     state: latest
 
+        
 
-                    #- name: instalar xfs
-                    # yum:
-                    #name: xfsprogs
-              
-                    #- name: actualizar
-                    #yum:
-                    # name: '*'
-                    # state: latest
-          
-                    # - name: crear directorio /dev/sdb
-                    # file:
-                    # path: /dev/sdb
-                    # state: directory
-                    # mode: 0755
+                
 
-                    #- name: crear particion
-                    # parted:
-                    #device: /dev/sdb
-                    #number: 1
-                    # flags: [ lvm ]
-                    # state: present
-                    #part_end: 12GB
-
-                    # - name: crear particion
-                    #parted:
-                    # device: /dev/sdb
-                    # number: 1
-                    #state: present
-                   
-                    #- name: eliminar directorio
-                    #shell: rm -rf /dev/sdb          
-
-                    # - name: mount swarm
-                    # shell: mount.glusterfs localhost:/swarm-vols /swarm/volumes
+       
 
           - name: assign content to /dev/sdb
             shell:
@@ -158,31 +128,35 @@
                             ;
                             EOF
             ignore_errors: yes
+                            #   - name: verify if /dev/sdb is created
+                            # command: cd /dev/sdb
+                            # register: resultado
+
+                            #- name: verify resultado
+                            #    shell: |
+                            # sfdisk /dev/sdb << EOF
+                            #;
+                    # EOF
+                    # when:
 
                          
 
           - name: ejecutar comando  mkfs.xfs
             shell: mkfs.xfs /dev/sdb1
-            ignore_errors: yes
+            #ignore_errors: yes
           
           - name: crear directorios  /gluster/data y  /dev/sdb
             shell: mkdir -p /gluster/data /swarm/volumes
-            ignore_errors: yes
+            #ignore_errors: yes
 
           - name: montar /dev/sdb
             shell: mount /dev/sdb1 /gluster/data/
-            ignore_errors: yes
+            #ignore_errors: yes
 
           - name: actualizar
             yum:
                     name: '*'
                     state: latest
-          
-                    #- name: cambiar permisos de gluster
-                    #file:
-                    # path: /var/log/glusterfs/cli.log
-                    #owner: vagrant
-                    # mode: 755
 
           
 - hosts: master
@@ -205,26 +179,26 @@
           - name: gluster start volume
             shell:
                     cmd: gluster volume start swarm-vols
-            ignore_errors: yes
+                    #ignore_errors: yes
 - hosts: all
   become: yes
   tasks:
           - name: mount swarm in all nodes
             shell: mount.glusterfs localhost:/swarm-vols /swarm/volumes
-            ignore_errors: yes
-- hosts: master
-  become: yes
-  tasks:
-          - name: docker swarm init
-            shell: docker swarm init >> token.txt
+            #ignore_errors: yes
+            #- hosts: master
+            # become: yes
+            # tasks:
+            #- name: docker swarm init
+            # shell: docker swarm init >> token.txt
 
-- hosts: worker_1,worker_2,worker_3
-  become: yes
-  tasks:
-          - name: copiar archivo
-            shell: scp master@192.168.56.110 /home/token.txt
+            #- hosts: worker_1 worker_2 worker_3
+  #become: yes
+  #tasks:
+          #- name: copiar archivo
+          # shell: scp master@192.168.56.110 /home/token.txt
 
-          - name: join
-            shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+            #- name: join
+            #  shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
         
            
