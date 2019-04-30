@@ -36,6 +36,9 @@ echo "<th>Apellido</th>";
 echo "<th>Carrera</th>";
 echo "<th>Email</th>";
 echo "</tr>";
+
+echo "<td> <input type="submit" name="Submit" value="Consulta buena"/></td> \n";
+echo "<td> <input type="submit" name="Submit" value="Consulta mala"/></td> \n";
 	// Bucle while que recorre cada registro y muestra cada campo en la tabla.
 while ($columna = mysqli_fetch_array( $resultado ))
 {
@@ -47,9 +50,6 @@ while ($columna = mysqli_fetch_array( $resultado ))
 echo "</table>"; // Fin de la tabla
 // cerrar conexión de base de datos
 mysqli_close( $conn );
-
-echo "<td> <input type="submit" name="Submit" value="Consulta buena"/></td> \n";
-echo "<td> <input type="submit" name="Submit" value="Consulta mala"/></td> \n";
 
 
 
