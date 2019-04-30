@@ -47,4 +47,12 @@ while ($columna = mysqli_fetch_array( $resultado ))
 echo "</table>"; // Fin de la tabla
 // cerrar conexión de base de datos
 mysqli_close( $conn );
+
+echo "<td> <input type="submit" name="Submit" value="Consulta buena"/></td> \n";
+echo "<td> <input type="submit" name="Submit" value="Consulta mala"/></td> \n";
+
+
+
+
+
 ?>
