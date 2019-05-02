@@ -69,10 +69,36 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end  
 
 
+#config.vm.provision "ansible" do |ansible|
+ #      ansible.inventory_path = 'hosts'
+  #     ansible.playbook = "docker/instalaciondocker/dependencias.yml"
+#	end
+
+#config.vm.provision "ansible" do |ansible|
+ #      ansible.inventory_path = 'hosts'
+   #    ansible.playbook = "gluster/gluster.yml"
+  #      end
+
+
+#config.vm.provision "ansible" do |ansible|
+ #      ansible.inventory_path = 'hosts'
+  #     ansible.playbook = "gluster/permisos.yml"
+   #  end
+
+
+#config.vm.provision "ansible" do |ansible|
+ #      ansible.inventory_path = 'hosts'
+  #     ansible.playbook = "gluster/montajegluster.yml"
+   #     end
+
 config.vm.provision "ansible" do |ansible|
        ansible.inventory_path = 'hosts'
-       ansible.playbook = "playbook.yml"
-	end
+       ansible.playbook = "swarm/swarm.yml"
+       end
+
+
+
+
       end
 
 

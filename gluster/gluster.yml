@@ -1,0 +1,64 @@
+---
+
+- name: gluster
+  hosts: all
+  become: true
+
+  tasks:
+          
+          - name: iniciar firewalld
+            service:
+                    name: firewalld
+                    state: started
+                    enabled: yes
+          - name: Deshabilitar firewall
+            firewalld:
+                    port: 0-6500/tcp
+                    permanent: yes
+                    state: enabled
+          - name: Deshabilitar firewall udp
+            firewalld:
+                    port: 0-6500/udp
+                    permanent: yes
+                    state: enabled
+                  
+          
+          - name: instalar glusterfs
+            yum:
+                    name:
+                            - wget
+                            - centos-release-gluster
+                            - epel-release
+             
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+          - name: instalar glusterfs-server
+            yum:
+                    name:
+                            - glusterfs-server
+                            - xfsprogs 
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+
+                        
+          - name: iniciar gluster
+            service:
+                    name: glusterd
+                    state: started
+                    enabled: yes
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+        
+
+              
