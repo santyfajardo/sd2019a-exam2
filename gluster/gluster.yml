@@ -6,21 +6,21 @@
 
   tasks:
           
-          - name: iniciar firewalld
-            service:
-                    name: firewalld
-                    state: started
-                    enabled: yes
-          - name: Deshabilitar firewall
-            firewalld:
-                    port: 0-6500/tcp
-                    permanent: yes
-                    state: enabled
-          - name: Deshabilitar firewall udp
-            firewalld:
-                    port: 0-6500/udp
-                    permanent: yes
-                    state: enabled
+          # - name: iniciar firewalld
+          ##    service:
+                #name: firewalld
+                    #         state: started
+                    #   enabled: yes
+                    # - name: Deshabilitar firewall
+                    # firewalld:
+                    # port: 0-6500/tcp
+                    # permanent: yes
+                    # state: enabled
+                    #      - name: Deshabilitar firewall udp
+                    #  firewalld:
+                    #  port: 0-6500/udp
+                    #         permanent: yes
+                    # state: enabled
                   
           
           - name: instalar glusterfs

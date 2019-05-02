@@ -1,4 +1,4 @@
-
+#
 # fluentd/Dockerfile
 FROM fluent/fluentd:v1.2.6-debian
 RUN apt update -y && apt install vim -y

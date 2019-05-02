@@ -1,46 +1,5 @@
 ---
-#- name: montaje gluster
-  #hosts: all
-  #become: true
 
-  #  tasks:
-
-          #    - name: assign content to /dev/sdb
-          # shell:
-                    # cmd: |
-                    #       sfdisk /dev/sdb << EOF
-                    #       ;
-                    #       EOF
-                            # ignore_errors: yes         
-
-            #      - name: ejecutar comando  mkfs.xfs
-            #shell: mkfs.xfs /dev/sdb1
-            #ignore_errors: yes
-          
-            # - name: crear directorios  /gluster/data y  /dev/sdb
-            #shell: mkdir -p /gluster/data /swarm/volumes
-            # ignore_errors: yes
-
-            # - name: montar /dev/sdb
-            # shell: mount /dev/sdb1 /gluster/data/
-            # ignore_errors: yes
-
-            # - name: actualizar
-            #yum:
-                    # name: '*'
-                    #  state: latest
-
-                    #- name: montaje gluster en worker 2
-                    #  hosts: 192.168.56.112
-                    #  become: true
-
-                    #  tasks:
-
-                    #          - name: parar firewall
-                    #          shell: systemctl stop firewalld
-
-                    #         - name: deshabilitar firewall
-                    #       shell: systemctl disable firewalld
 
         
           
@@ -73,19 +32,4 @@
             shell:
                     cmd: mount.glusterfs localhost:/swarm-vols /swarm/volumes
             ignore_errors: yes
-            #- hosts: master
-            # become: yes
-            # tasks:
-            #- name: docker swarm init
-            # shell: docker swarm init >> token.txt
-
-            #- hosts: worker_1 worker_2 worker_3
-  #become: yes
-  #tasks:
-          #- name: copiar archivo
-          # shell: scp master@192.168.56.110 /home/token.txt
-
-            #- name: join
-            #  shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
-        
-           
+                     

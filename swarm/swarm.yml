@@ -14,3 +14,4 @@
           - name: join
             shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
 
+#name
