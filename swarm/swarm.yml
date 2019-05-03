@@ -3,15 +3,54 @@
   become_method: sudo
   tasks:
           - name: docker swarm init
-            shell:  docker swarm init --advertise-addr 192.168.56.110 > token.txt
+            shell:  docker swarm init --advertise-addr 192.168.56.110
+            ignore_errors: yes
+          - name: hola
+            shell: docker swarm join-token -q worker > /home/vagrant/token.txt
 
-- hosts: worker_1 worker_2 worker_3
+
+- hosts: master
   become: yes
+  become_method: sudo
   tasks:
-          - name: copiar archivo
-            shell: scp master@192.168.56.110 /home/token.txt
+          - name: change token permissions
+            shell:  chmod 777 /home/vagrant/token.txt
+            ignore_errors: yes
 
-          - name: join
-            shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+- hosts: localhost
+  connection: local
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: copiar archivo 1
+            shell: scp  vagrant@192.168.56.110:/home/vagrant/token.txt vagrant@192.168.56.111:/home/vagrant
+
+          - name: copiar archivo 2
+            shell: scp vagrant@192.168.56.110:/home/vagrant/token.txt  vagrant@192.168.56.112:/home/vagrant
+
+          - name: copiar archivo 3
+            shell: scp vagrant@192.168.56.110:/home/vagrant/token.txt  vagrant@192.168.56.113:/home/vagrant
+
+            #          - hosts: worker_1 
+  # become: yes
+  # become_method: sudo
+  # tasks:
+          #- name: join
+          #  shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+
+            #- hosts: worker_2 
+            # become: yes
+            #become_method: sudo
+            #tasks:
+            #- name: join
+            #shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+
+            #- hosts: worker_3 
+            # become: yes
+            # become_method: sudo
+            # tasks:
+            # - name: join
+            # shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+
 
 #name
