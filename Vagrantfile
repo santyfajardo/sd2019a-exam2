@@ -71,13 +71,13 @@ end
 
 #config.vm.provision "ansible" do |ansible|
  #      ansible.inventory_path = 'hosts'
-  #     ansible.playbook = "docker/instalaciondocker/dependencias.yml"
+  #    ansible.playbook = "docker/instalaciondocker/dependenciasdocker.yml"
 #	end
 
 #config.vm.provision "ansible" do |ansible|
  #      ansible.inventory_path = 'hosts'
-   #    ansible.playbook = "gluster/gluster.yml"
-  #      end
+  #     ansible.playbook = "gluster/gluster.yml"
+   #    end
 
 
 #config.vm.provision "ansible" do |ansible|
@@ -87,19 +87,37 @@ end
 
 
 #config.vm.provision "ansible" do |ansible|
- #      ansible.inventory_path = 'hosts'
+ #     ansible.inventory_path = 'hosts'
   #     ansible.playbook = "gluster/montajegluster.yml"
    #     end
 
+#config.vm.provision "ansible" do |ansible|
+ #      ansible.inventory_path = 'hosts'
+  #     ansible.limit = "all,localhost"
+   #    ansible.playbook = "swarm/swarmmaster.yml"
+    #   end
+
 config.vm.provision "ansible" do |ansible|
        ansible.inventory_path = 'hosts'
-       ansible.playbook = "swarm/swarm.yml"
+       ansible.limit = "all,localhost"
+       ansible.playbook = "swarm/swarmworkers.yml"
        end
-
 
 #end
 
-
+config.vm.provision "file", source: "/root/.ssh/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+  public_key = File.read("/root/.ssh/id_rsa.pub")
+  config.vm.provision :shell, :inline =>"
+      echo 'Copying ansible-vm public SSH Keys to the VM'
+      mkdir -p /home/vagrant/.ssh
+      chmod 700 /home/vagrant/.ssh
+      echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
+      chmod -R 600 /home/vagrant/.ssh/authorized_keys
+      echo 'Host 192.168.*.*' >> /home/vagrant/.ssh/config
+      echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
+      echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
+      chmod -R 600 /home/vagrant/.ssh/config
+      ", privileged: false
 
       end
 

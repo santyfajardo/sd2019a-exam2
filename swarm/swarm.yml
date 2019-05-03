@@ -16,6 +16,9 @@
           - name: change token permissions
             shell:  chmod 777 /home/vagrant/token.txt
             ignore_errors: yes
+          
+          - name: deshabilitar firewalld
+            shell: systemctl stop firewalld
 
 - hosts: localhost
   connection: local
@@ -31,26 +34,28 @@
           - name: copiar archivo 3
             shell: scp vagrant@192.168.56.110:/home/vagrant/token.txt  vagrant@192.168.56.113:/home/vagrant
 
-            #          - hosts: worker_1 
-  # become: yes
-  # become_method: sudo
-  # tasks:
-          #- name: join
-          #  shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
-
-            #- hosts: worker_2 
-            # become: yes
-            #become_method: sudo
-            #tasks:
-            #- name: join
-            #shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
-
-            #- hosts: worker_3 
-            # become: yes
-            # become_method: sudo
-            # tasks:
-            # - name: join
-            # shell: docker swarm join --token $(cat /home/vagrant/token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+- hosts: worker_1 
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: join 1
+            shell: var=`cat token.txt` && sudo docker swarm join --token $var 192.168.56.110:2377
 
 
-#name
+- hosts: worker_2 
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: join 2
+            shell: var=`cat token.txt` && sudo docker swarm join --token $var 192.168.56.110:2377
+
+
+- hosts: worker_3 
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: join 3
+            shell: var=`cat token.txt` && sudo docker swarm join --token $var 192.168.56.110:2377
+
+
+
