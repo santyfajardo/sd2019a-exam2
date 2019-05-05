@@ -1,7 +1,7 @@
 # sd2019a-exam2
 Repository for the exam2
 
-**Segundo Examen Parcial**  
+#Segundo Examen Parcial  
 
 **Universidad Icesi**  
 
@@ -21,9 +21,9 @@ Para la ejecución de los diferentes playbook , se decidio tener un archivo de c
 La instrucción para ejecutar desde el Vagrantfile los diferentes playbook se pueden ver en las sigientes lineas: 
 
 config.vm.provision "ansible" do |ansible|
-      ansible.inventory_path = 'hosts'
-      ansible.playbook = "docker/instalaciondocker/dependenciasdocker.yml"
-	end
+ ansible.inventory_path = 'hosts'
+ ansible.playbook = "docker/instalaciondocker/dependenciasdocker.yml"
+ end
 
 En "ansible.playbook ="  irá el archivo que queramos ejecutar. En nuestro caso se instaló y se configuró:
 
@@ -50,7 +50,11 @@ Captura de la creación de la partición y del montaje swarm de localhost:/swarm
 Captura de la unión de todos los nodos en el gluster.
 
 
-![](Imagenes/pool list.png) 
+![](Imagenes/pool.png) 
+
+
+**Sw
+
 
 **Problemas encontrados** 
 Al realizar el parcial en una maquina virtual y no tener instalado nada, se presentaban errores por libvirtd, vagrant, ansible y la imagen del centos/7, entonces se debio hacer su debida instalación. Otro error fue que la maquina virtual colapsaba o se congelaba ya que a cada nodo le estaba asignando mucha memoria Ram.
