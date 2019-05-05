@@ -41,7 +41,7 @@ Se instaló gluster en el archivo gluster.yml. Posteriormente en el archivo perm
 
 Captura de la creación de la partición y del montaje swarm de localhost:/swarm-vols /swarm/volumes en todos los nodos 
 
-![](Imagenes/volumes2.png) 
+![](Imagenes/volumes3.png) 
 
 
 ![](Imagenes/volumes.png) 
@@ -50,7 +50,7 @@ Captura de la creación de la partición y del montaje swarm de localhost:/swarm
 Captura de la unión de todos los nodos en el gluster.
 
 
-![](Imagenes/poollist.png) 
+![](Imagenes/pool list.png) 
 
 **Problemas encontrados** 
 Al realizar el parcial en una maquina virtual y no tener instalado nada, se presentaban errores por libvirtd, vagrant, ansible y la imagen del centos/7, entonces se debio hacer su debida instalación. Otro error fue que la maquina virtual colapsaba o se congelaba ya que a cada nodo le estaba asignando mucha memoria Ram.
