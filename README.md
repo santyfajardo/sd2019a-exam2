@@ -97,13 +97,14 @@ Despues de esto se debio destruir las maquinas con vagrant destroy y despues vag
 
 # Referencias 
 Para vagrant se utilizó:
-https://github.com/ICESI/ds-docker/blob/master/09_docker_swarm/00_nodes_deploy/Vagrantfile
+https://github.com/ICESI/ds-docker/blob/master/09_docker_swarm/00_nodes_deploy/Vagrantfile  y 
 https://github.com/atSistemas/vagrant-docker-swarm-cluster/blob/master/Vagrantfile
 
 Para la instalación de Docker y Docker-Compose se utilizó:
  https://lastviking.eu/install_docker_on_centos_with_ansible.html
  
 Para la instalación y configuración del gluster se utilizó:
-https://github.com/ICESI/ds-glusterfs/blob/master/00_nodes_deploy/install/glusterfs.sh
+https://github.com/ICESI/ds-glusterfs/blob/master/00_nodes_deploy/install/glusterfs.sh y  
+https://stackoverflow.com/questions/33773026/unable-to-peer-probe-in-glusterfs-transport-endpoint-is-not-connected
 
 
