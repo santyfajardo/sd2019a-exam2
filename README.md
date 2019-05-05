@@ -20,10 +20,10 @@ Para la ejecución de los diferentes playbook , se decidio tener un archivo de c
 
 La instrucción para ejecutar desde el Vagrantfile los diferentes playbook se pueden ver en las sigientes lineas: 
 
-#config.vm.provision "ansible" do |ansible|
- #      ansible.inventory_path = 'hosts'
-  #    ansible.playbook = "docker/instalaciondocker/dependenciasdocker.yml"
-#	end
+config.vm.provision "ansible" do |ansible|
+      ansible.inventory_path = 'hosts'
+      ansible.playbook = "docker/instalaciondocker/dependenciasdocker.yml"
+	end
 
 En "ansible.playbook ="  irá el archivo que queramos ejecutar. En nuestro caso se instaló y se configuró:
 
