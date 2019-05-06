@@ -46,3 +46,6 @@ El archivo de configuración de Fluentd posee 4 zonas: Source, Filter, Match y S
 
 #### Elastic Search, Kibana:  
 La configuración de estas dos tecnologias se llevó a cabo en el docker-compose, archivo en el cual obtenemos las imagenes, configuramos puertos de comunicación y los ambientes.
+
+![](images/fluentd2.png)  
+![](images/fluentd3.png)  
