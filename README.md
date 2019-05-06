@@ -63,7 +63,22 @@ Con la generación de estos logs podemos ver en kibana la visualización histór
 
 ## Problemas que se encontraron
 
-- 
+- No logramos hacer de manera inmediata la configuración y la puesta en marcha de Glusterfs dado que la versión que utilizamos de Linux en clase fue ubuntu Xenial y para esta práctica usamos una imagen de Centos7 y ésta última tiene unas políticas en el firewall que no permite la instalación de Glusterfs por ello se realizan los siguientes cambios:  
+
+![](images/firewall.png)  
+
+- Pensabamos que los logs se generaban en la carpeta var/www/logs y no encontrabamos la manera de como parsearlos e integrarlos con el Stack EFK
+
+- No generamos logs propios.
+
+#### Bibliografia 
+
+https://docs.fluentd.org/v0.12/articles/docker-logging-efk-compose  
+https://www.fluentd.org/   
+https://docs.docker.com/compose/  
+https://hub.docker.com/_/php  
+
+
 
 
 
