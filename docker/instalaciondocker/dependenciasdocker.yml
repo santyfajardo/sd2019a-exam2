@@ -5,13 +5,6 @@
   become: true
 
   tasks:
-          #        - name: nodos
-          # shell: echo "192.168.56.110 node0" >> /etc/hosts
-          #        echo "192.168.56.111 node1" >> /etc/hosts
-          #        echo "192.168.56.112 node2" >> /etc/hosts
-          #        echo "192.168.56.113 node3" >> /etc/hosts
-          
-          
           - name: Actualizar todos los paquetes
             yum: name=* state=latest
           
