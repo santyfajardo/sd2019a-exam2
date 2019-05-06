@@ -39,23 +39,21 @@ Fluentd es una librería de código abierto que permite la colección de logs, l
 De la configuración del stack EFK, Fluentd es la única herramienta que tiene una carpeta destinada a su configuración. Basicamente utilizamos la misma configuración vista en clase y añadimos en el docker-compose algunas reglas en la zona de drivers de la aplicación php para que fluentd escuchara el tráfico de paquetes por el puerto 80.  
 El archivo de configuración de Fluentd posee 4 zonas: Source, Filter, Match y System.
 
-![](images/fluentd1.png)  
-
 
 **Zona source** Los plugins de entrada estándar de Fluentd son http y forward. Http convierte a fluentd en un punto final HTTP para aceptar mensajes HTTP entrantes. Mientras que, forward convierte a fluentd en un punto final TCP para aceptar paquetes TCP. Además pueden utilizarse ambas fuentes al mismo tiempo; Cada directiva de origen debe incluir un @typeparameter. El cual especifica qué complemento de entrada usar. **Zona filter** Es la zona para el procesamiento de información, aquí añadimos formato a los logs y podemos concatenarlos con otras cadenas. **Zona match** Esta zona busca eventos con etiquetas de coincidencia y los procesa. El uso más común de esta zona es enviar eventos a otros sistemas (por esta razón, los complementos que corresponden a la directiva match se denominan "complementos de salida"). Los plugins de salida estándar de Fluentd incluyen filey forward. 
 
+![](images/fluentd2.png)  
+
 #### Elastic Search, Kibana:  
 La configuración de estas dos tecnologias se llevó a cabo en el docker-compose, archivo en el cual obtenemos las imagenes, configuramos puertos de comunicación y los ambientes.  
-
-![](images/fluentd2.png)  
-![](images/fluentd3.png) 
-
-
 
 #### Funcionamiento de la aplicación web y la base de datos:
 Para la generación de logs realizamos peticiones a la base de datos. Para ello realizamos la consulta de la dirección de la base de datos (log 200 OK) y otra consulta a una página sin destino (log 404 not found). Estos logs serán vistos y administrados por Kibana. 
 
 Realizamos algunos scripts para la realización de consultas: 
+
+![](images/script1.png)
+
 
 
 
