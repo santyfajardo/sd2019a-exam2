@@ -52,8 +52,18 @@ Para la generación de logs realizamos peticiones a la base de datos. Para ello 
 
 Realizamos algunos scripts para la realización de consultas: 
 
-![](images/script1.png)
+![](images/script1.png)  
 
+Con la generación de estos logs podemos ver en kibana la visualización histórica de esta:  
+
+![](images/visualized200request.png)
+
+![](images/visualized404request.png)
+
+
+## Problemas que se encontraron
+
+- 
 
 
 
