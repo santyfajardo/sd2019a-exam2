@@ -71,8 +71,7 @@ En la siguiente imagen se muestra el docker swarm configurado:
 
 ![](Imagenes/swarm.png)
 
-
-
+![](Imagenes/swarm1.png)
 # Problemas encontrados 
 
 - Al realizar el parcial en una maquina virtual y no tener instalado nada, se presentaban errores por libvirtd, vagrant, ansible y la imagen del centos/7, entonces se debio hacer su debida instalación. 
