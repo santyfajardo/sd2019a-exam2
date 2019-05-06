@@ -1,0 +1,58 @@
+---
+
+- name: Aprovisionamiento con ansible
+  hosts: all
+  become: true
+
+  tasks:
+          - name: Actualizar todos los paquetes
+            yum: name=* state=latest
+          
+          - name: Revisar si docker esta instalado 
+            command: systemctl status docker
+            register: docker_check
+            ignore_errors: yes
+         
+          - name: Descargar el instalador de Docker
+            get_url:
+                    url: https://get.docker.com/
+                    dest: /root/install_docker.sh
+                    mode: 0700
+            when: docker_check.stderr.find('service could not be found') != -1
+          
+          - name: Instalar docker
+            shell: /root/install_docker.sh
+            when: docker_check.stderr.find('service could not be found') != -1
+          
+          - name: Quitar el archivo de instalacion
+            file:
+                    state: absent
+                    path: /root/install_docker.sh
+          
+          - name: Habilitar Docker daemon 
+            systemd:
+                    name: docker
+                    enabled: yes
+                    masked: no
+          
+          - name: Iniciar Docker
+            systemd:
+                    name: docker
+                    state: started
+                    masked: no
+
+          - name: Revisar si Docker Compose esta instalado
+            command: docker-compose --version
+            register: docker_compose_check
+            ignore_errors: yes
+          
+          - name: Descargar e instalar Docker Compose
+            get_url:
+                    url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
+                    dest: /usr/bin/docker-compose
+                    mode: 0755
+            when:
+                            - docker_compose_check.msg is defined
+                            - docker_compose_check.msg.find('No such file or directory') != -1
+          
+       

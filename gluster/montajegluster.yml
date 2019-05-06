@@ -1,0 +1,31 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+          - name: añadir nodo1 al gluster
+            shell:
+                    cmd: gluster peer probe 192.168.56.111
+          - name: añadir nodo2 al gluster
+            shell:
+                    cmd: gluster peer probe 192.168.56.112
+            ignore_errors: yes
+          - name: añadir nodo3 al gluster
+            shell:
+                    cmd: gluster peer probe 192.168.56.113
+          - name: create volume
+            shell:
+                    cmd: gluster volume create swarm-vols replica 4 192.168.56.110:/gluster/data 192.168.56.111:/gluster/data 192.168.56.112:/gluster/data 192.168.56.113:/gluster/data force     
+            ignore_errors: yes
+          
+          - name: iniciar el volumen del gluster
+            shell:
+                    cmd: gluster volume start swarm-vols
+            ignore_errors: yes
+- hosts: all
+  become: yes
+  tasks:
+          - name: montar swarm en todos los nodos
+            shell:
+                    cmd: mount.glusterfs localhost:/swarm-vols /swarm/volumes
+            ignore_errors: yes
+                     

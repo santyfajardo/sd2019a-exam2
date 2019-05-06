@@ -1,0 +1,204 @@
+---
+
+- name: Aprovisionamiento con ansible
+  hosts: all
+  become: true
+
+  tasks:
+          - name: nodos
+            shell: echo "192.168.56.110 node0" >> /etc/hosts
+                   echo "192.168.56.111 node1" >> /etc/hosts
+                   echo "192.168.56.112 node2" >> /etc/hosts
+                   echo "192.168.56.113 node3" >> /etc/hosts
+          
+          
+          - name: Actualizar todos los paquetes
+            yum: name=* state=latest
+          
+          - name: Revisar si docker esta instalado 
+            command: systemctl status docker
+            register: docker_check
+            ignore_errors: yes
+         
+          - name: Descargar el instalador de Docker
+            get_url:
+                    url: https://get.docker.com/
+                    dest: /root/install_docker.sh
+                    mode: 0700
+            when: docker_check.stderr.find('service could not be found') != -1
+          
+          - name: Instalar docker
+            shell: /root/install_docker.sh
+            when: docker_check.stderr.find('service could not be found') != -1
+          
+          - name: Quitar el archivo de instalacion
+            file:
+                    state: absent
+                    path: /root/install_docker.sh
+          
+          - name: Habilitar Docker daemon 
+            systemd:
+                    name: docker
+                    enabled: yes
+                    masked: no
+          
+          - name: Iniciar Docker
+            systemd:
+                    name: docker
+                    state: started
+                    masked: no
+
+          - name: Revisar si Docker Compose esta instalado
+            command: docker-compose --version
+            register: docker_compose_check
+            ignore_errors: yes
+          
+          - name: Descargar e instalar Docker Compose
+            get_url:
+                    url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
+                    dest: /usr/bin/docker-compose
+                    mode: 0755
+            when:
+                            - docker_compose_check.msg is defined
+                            - docker_compose_check.msg.find('No such file or directory') != -1
+          
+          - name: iniciar firewalld
+            service:
+                    name: firewalld
+                    state: started
+                    enabled: yes
+          - name: Deshabilitar firewall
+            firewalld:
+                    port: 0-6500/tcp
+                    permanent: yes
+                    state: enabled
+          - name: Deshabilitar firewall udp
+            firewalld:
+                    port: 0-6500/udp
+                    permanent: yes
+                    state: enabled
+                  
+          
+          - name: instalar glusterfs
+            yum:
+                    name:
+                            - wget
+                            - centos-release-gluster
+                            - epel-release
+             
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+          - name: instalar glusterfs-server
+            yum:
+                    name:
+                            - glusterfs-server
+                            - xfsprogs 
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+
+                        
+          - name: iniciar gluster
+            service:
+                    name: glusterd
+                    state: started
+                    enabled: yes
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+        
+
+                
+
+       
+
+          - name: assign content to /dev/sdb
+            shell:
+                    cmd: |
+                            sfdisk /dev/sdb << EOF
+                            ;
+                            EOF
+            ignore_errors: yes
+                            #   - name: verify if /dev/sdb is created
+                            # command: cd /dev/sdb
+                            # register: resultado
+
+                            #- name: verify resultado
+                            #    shell: |
+                            # sfdisk /dev/sdb << EOF
+                            #;
+                    # EOF
+                    # when:
+
+                         
+
+          - name: ejecutar comando  mkfs.xfs
+            shell: mkfs.xfs /dev/sdb1
+            #ignore_errors: yes
+          
+          - name: crear directorios  /gluster/data y  /dev/sdb
+            shell: mkdir -p /gluster/data /swarm/volumes
+            #ignore_errors: yes
+
+          - name: montar /dev/sdb
+            shell: mount /dev/sdb1 /gluster/data/
+            #ignore_errors: yes
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+          
+- hosts: master
+  become: yes
+  tasks:
+          - name: gluster add node1
+            shell:
+                    cmd: gluster peer probe node1
+          - name: gluster add node2
+            shell:
+                    cmd: gluster peer probe node2
+          - name: gluster add node3
+            shell:
+                    cmd: gluster peer probe node3
+          - name: create volume
+            shell:
+                    cmd: gluster volume create swarm-vols replica 4 node0:/gluster/data node1:/gluster/data node2:/gluster/data node3:/gluster/data force     
+            ignore_errors: yes
+          
+          - name: gluster start volume
+            shell:
+                    cmd: gluster volume start swarm-vols
+                    #ignore_errors: yes
+- hosts: all
+  become: yes
+  tasks:
+          - name: mount swarm in all nodes
+            shell: mount.glusterfs localhost:/swarm-vols /swarm/volumes
+            #ignore_errors: yes
+            #- hosts: master
+            # become: yes
+            # tasks:
+            #- name: docker swarm init
+            # shell: docker swarm init >> token.txt
+
+            #- hosts: worker_1 worker_2 worker_3
+  #become: yes
+  #tasks:
+          #- name: copiar archivo
+          # shell: scp master@192.168.56.110 /home/token.txt
+
+            #- name: join
+            #  shell: docker swarm join --token $(cat token.txt | grep "\--token" | awk '{print $2}') 192.168.53.110:2377
+        
+           

@@ -1,0 +1,46 @@
+---
+
+- name: gluster
+  hosts: all
+  become: true
+
+  tasks:
+          - name: instalar glusterfs
+            yum:
+                    name:
+                            - wget
+                            - centos-release-gluster
+                            - epel-release
+             
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+          - name: instalar glusterfs-server
+            yum:
+                    name:
+                            - glusterfs-server
+                            - xfsprogs 
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+
+                        
+          - name: iniciar gluster
+            service:
+                    name: glusterd
+                    state: started
+                    enabled: yes
+
+          - name: actualizar
+            yum:
+                    name: '*'
+                    state: latest
+
+        
+
+              

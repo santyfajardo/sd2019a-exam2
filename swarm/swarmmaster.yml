@@ -1,0 +1,18 @@
+- hosts: master
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: iniciar docker swarm
+            shell:  docker swarm init --advertise-addr 192.168.56.110
+            ignore_errors: yes
+          - name: join docker swarm
+            shell: docker swarm join-token -q worker > /home/vagrant/token.txt
+
+          - name: cambiar permisos del archivo token
+            shell:  chmod 777 /home/vagrant/token.txt
+            ignore_errors: yes
+          
+          - name: deshabilitar firewalld
+            shell: systemctl stop firewalld
+
+
