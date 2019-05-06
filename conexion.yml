@@ -4,7 +4,7 @@
   tasks:
           - name: archivos de la aplicacion
             copy:
-                    src: Web/webphp
+                    src: /Web
                     dest: /home/vagrant
 
           - name: archivos de la base de datos
