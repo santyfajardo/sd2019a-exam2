@@ -1,0 +1,26 @@
+- hosts: master
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: archivos de la aplicacion
+            copy:
+                    src: Web/webphp
+                    dest: /home/vagrant
+
+          - name: archivos de la base de datos
+            copy:
+                    src: /Database
+                    dest: /home/vagrant
+
+          - name: arhivos de fluentd
+            copy:
+                    src: /fluentd
+                    dest: /home/vagrant
+
+          - name: docker compose
+            copy:
+                    src: docker-compose.yml
+                    dest: /home/vagrant
+
+          - name: desplegar en la master
+            shell: docker-compose up

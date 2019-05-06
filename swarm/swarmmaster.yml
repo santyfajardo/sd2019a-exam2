@@ -2,13 +2,13 @@
   become: yes
   become_method: sudo
   tasks:
-          - name: docker swarm init
+          - name: iniciar docker swarm
             shell:  docker swarm init --advertise-addr 192.168.56.110
             ignore_errors: yes
-          - name: hola
+          - name: join docker swarm
             shell: docker swarm join-token -q worker > /home/vagrant/token.txt
 
-          - name: change token permissions
+          - name: cambiar permisos del archivo token
             shell:  chmod 777 /home/vagrant/token.txt
             ignore_errors: yes
           
