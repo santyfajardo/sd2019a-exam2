@@ -4,12 +4,16 @@ services:
     build: ./Database
     ports:
       - "3306:3306"
+    networks:
+            overlay:
     environment:
             MYSQL_ROOT_PASSWORD: password      
   web:
     build: ./Web/webphp
     ports:
       - "8080:80"
+    networks:
+            overlay:
     logging:
       driver: "fluentd"
       options:
@@ -31,6 +35,8 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
+    networks:
+            overlay:
 
   elasticsearch:
     image: elastic/elasticsearch:6.4.3
@@ -40,12 +46,19 @@ services:
       memlock:
         soft: -1
         hard: -1
-    expose:
-      - 9200
+        #expose:
+        # - 9200
     ports:
       - "9200:9200"
+    networks:
+            overlay:
 
   kibana:
     image: elastic/kibana:6.4.3
     ports:
       - "5601:5601"
+    networks:
+            overlay:
+                    
+networks:
+        overlay:                   

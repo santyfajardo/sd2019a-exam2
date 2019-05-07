@@ -18,10 +18,12 @@
                     url: https://get.docker.com/
                     dest: /root/install_docker.sh
                     mode: 0700
+                    #    state: latest
             when: docker_check.stderr.find('service could not be found') != -1
           
           - name: Instalar docker
             shell: /root/install_docker.sh
+            #state: latest
             when: docker_check.stderr.find('service could not be found') != -1
           
           - name: Quitar el archivo de instalacion
