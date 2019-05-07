@@ -77,6 +77,7 @@ https://docs.fluentd.org/v0.12/articles/docker-logging-efk-compose
 https://www.fluentd.org/   
 https://docs.docker.com/compose/  
 https://hub.docker.com/_/php  
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html   
 
 
 
